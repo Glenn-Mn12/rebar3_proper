@@ -419,7 +419,10 @@ proper_opts() ->
       "specifies a binary function '{Mod,Fun}', similar to io:format/2, "
       "to be used for all output printing"},
      {sys_config, undefined, "sys_config", string,
-      "config file to load before starting tests"}
+      "config file to load before starting tests"},
+     {nocolors, undefined, "nocolors", {boolean, false},
+      "instructs PropEr to don't use term colors in output "
+      "(defaults to false), requires PropEr >= 1.3.0"}
     ].
 
 handle_opts(State) ->
@@ -454,6 +457,8 @@ proper_opts([{long_result, true} | T]) -> [long_result | proper_opts(T)];
 proper_opts([{long_result, false} | T]) -> proper_opts(T);
 proper_opts([{noshrink, true} | T]) -> [noshrink | proper_opts(T)];
 proper_opts([{noshrink, false} | T]) -> proper_opts(T);
+proper_opts([{nocolors, true} | T]) -> [nocolors | proper_opts(T)];
+proper_opts([{nocolors, false} | T]) -> proper_opts(T);
 proper_opts([{any_to_integer, true} | T]) -> [any_to_integer | proper_opts(T)];
 proper_opts([{any_to_integer, false} | T]) -> proper_opts(T);
 proper_opts([{on_output, {Mod, Fun}} | T]) ->
@@ -562,4 +567,3 @@ format_doc(Mod, Fun) ->
                             [Mod,Fun]),
             []
     end.
-
